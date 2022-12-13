@@ -4,7 +4,7 @@
       v-model="drawer"
       app
     >
-      <!--  -->
+      <layoutComponent-sideBar />
     </v-navigation-drawer>
 
     <v-app-bar app>
@@ -13,7 +13,7 @@
       <v-toolbar-title>COTEC</v-toolbar-title>
     </v-app-bar>
 
-    <v-main>
+    <v-main class="grey lighten-2">
       <nuxt />
     </v-main>
     <layoutComponent-footer />
@@ -25,5 +25,11 @@
     data: () => ({
       drawer: false 
     }),
+    created(){
+      this.$store.dispatch('getAgenda')
+        .then((response) => {
+          console.log("ok");
+        })
+    }
   }
 </script>

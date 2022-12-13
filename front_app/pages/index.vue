@@ -8,9 +8,15 @@
       Agenda SEFAZ-MA
     </h1>
     <div class="d-flex">   
-        <agenda-listAgenda @showContactBtn="showContact($event)" />
+        <agenda-listAgenda 
+          @showContactBtn="showContact($event)" 
+          :showContato="showContato"
+        />
         <v-expand-x-transition>
-          <agenda-contato v-if="showContato" @noShowContact="noShowContact()" :employee="employee" /> 
+          <agenda-contato 
+            v-if="showContato" 
+            @noShowContact="noShowContact()" 
+            :employee="employee" /> 
         </v-expand-x-transition>
       </div>
   </v-container>

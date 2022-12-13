@@ -1,6 +1,6 @@
 <template>
     <v-card
-      class="mt-5 mx-auto"
+      class="mt-5 mx-auto ml-2"
       width="30%"
       min-height="612"
     >
@@ -8,6 +8,7 @@
         color="cyan"
         dark
       >
+        <v-icon class="mr-1">mdi-account</v-icon>
         {{employee.name}}
         <v-spacer></v-spacer>
         <v-btn 
@@ -33,7 +34,7 @@
                 </v-list-item-icon>
 
                 <v-list-item-content>
-                    <v-list-item-title>{{employee.mobile}}</v-list-item-title>
+                    <v-list-item-title>{{employee.cellphone ? employee.cellphone : 'Não informado'}}</v-list-item-title>
                     <v-list-item-subtitle>Pessoal</v-list-item-subtitle>
                 </v-list-item-content>
 
@@ -50,8 +51,8 @@
                 </v-list-item-icon>
 
                 <v-list-item-content>
-                <v-list-item-title>{{employee.phone}}</v-list-item-title>
-                <v-list-item-subtitle>SEFAZ</v-list-item-subtitle>
+                <v-list-item-title>{{employee.phone.phone}}</v-list-item-title>
+                <v-list-item-subtitle>SEFAZ / {{employee.phoneTable ? 'mesa' : 'próximo'}}</v-list-item-subtitle>
                 </v-list-item-content>
 
                 <v-list-item-icon>
@@ -84,8 +85,9 @@
                 </v-list-item-icon>
 
                 <v-list-item-content>
-                <v-list-item-title>{{employee.andar}} - Sede, SEFAZ-MA</v-list-item-title>
-                <v-list-item-subtitle>São Luis - MA</v-list-item-subtitle>
+                <v-list-item-title>{{employee.sector.name}} - {{employee.sector.localization.type}}</v-list-item-title>
+                <v-list-item-subtitle>{{employee.sector.localization.adress}}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{employee.sector.localization.city}} - MA</v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
         </v-list-item-group>
