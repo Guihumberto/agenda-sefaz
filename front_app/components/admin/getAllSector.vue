@@ -26,7 +26,7 @@
             <template v-for="(item, index) in listSearch.list">
               <!-- edit mode -->
               <v-list-item 
-                :key="index + item.phone" 
+                :key="index + item.id" 
                 v-if="editMode == item.id"
               >
                 <v-list-item-icon class="pt-3">
@@ -36,11 +36,10 @@
                   <v-list-item-content>
                     <v-list-item-title class="pt-3">
                      <v-text-field
-                     v-model="item.phone"
+                     v-model="item.name"
                      dense outlined
                      autofocus
                      style="max-width:150px"
-                     v-mask="'(##) ####-####'"
                      :rules="[rules.required, rules.mincaracter]"
                      ></v-text-field>
                     </v-list-item-title>
@@ -61,13 +60,13 @@
                 </v-form>
               </v-list-item>
               <!-- delete mode -->
-              <v-list-item :key="index + item.phone" v-else-if="deleteMode == item.id">
+              <v-list-item :key="index + item.id" v-else-if="deleteMode == item.id">
                 <v-list-item-icon>
                   <v-icon color="error">mdi-alert-circle-outline</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title class="error--text">
-                    Tem certeza que deseja apagar o ramal <strong>{{item.phone}}</strong>?
+                    Tem certeza que deseja apagar o registro <strong>{{item.name}}</strong>?
                   </v-list-item-title>
                   <v-list-item-subtitle>
                     A operação não poderá ser desfeita.
@@ -89,11 +88,11 @@
                 </v-list-item-action>
               </v-list-item>
               <!-- show mode -->
-              <v-list-item :key="index + item.phone" v-else>
+              <v-list-item :key="index + item.id" v-else>
                 <template v-slot:default="{ active }">
                   <v-list-item-content>
-                    <v-list-item-subtitle v-text="item.id"></v-list-item-subtitle>
-                    <v-list-item-title v-text="item.phone"></v-list-item-title>
+                    <v-list-item-title v-text="item.name"></v-list-item-title>
+                    <v-list-item-subtitle v-if="item.localization">{{item.localization.type}} - {{item.localization.city}}</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
                     <v-list-item-action-text>Ações</v-list-item-action-text>
@@ -130,7 +129,7 @@
               </v-list-item>
               <v-divider
                 v-if="index < list.length - 1"
-                :key="index"
+                :key="index + item.id"
               ></v-divider>
             </template>
           </v-slide-x-transition>
@@ -159,7 +158,7 @@
     }),
     computed:{
         list(){
-            return this.$store.getters.readPhone.sort(this.order)
+            return this.$store.getters.readSector.sort(this.order)
         },
         listSearch(){
           let list = this.list
@@ -170,7 +169,7 @@
                 //retirar caracteres especiais
               let exp = new RegExp(search.trim().replace(/[\[\]!'.@><|//\\&*()_+=]/g, ""), "i")
               //fazer o filtro
-              let filtro = list.filter(project => exp.test(project.phone.normalize('NFD')
+              let filtro = list.filter(project => exp.test(project.name.normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, "") ) )
                 list = filtro
           }
@@ -196,7 +195,7 @@
         }
     },
     methods:{
-        ...mapActions(['cargaPhone', 'editSetPhone', 'removePhone']),
+        ...mapActions(['cargaSector', 'editSetSector', 'removeSector']),
         order(a, b){
           return b.id -  a.id
         },
@@ -213,19 +212,19 @@
         },
         modifyList(item){
           if(this.editMode){
-              this.editSetPhone(item)
+              this.editSetSector(item)
               this.editMode = null
               this.$store.dispatch("snackbars/setSnackbars", {text:'Registro editado', color:'success'})
           }
           if(this.deleteMode){
-            this.removePhone(item.id)
+            this.removeSector(item.id)
             this.deleteMode = null
             this.$store.dispatch("snackbars/setSnackbars", {text:'Registro removido', color:'error'})
           }
         }
     },
     created(){
-        this.cargaPhone()
+        this.cargaSector()
     }
   }
   </script>
