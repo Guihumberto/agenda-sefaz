@@ -26,20 +26,9 @@ public class Sector implements Serializable {
 	@OneToMany(mappedBy = "idsector")
 	private List<Employee> employee;
 	
-	
-	
-	
-	
-	
 	@ManyToOne
 	@JoinColumn(name = "local_id")
 	private Localization idlocal;
-	
-	
-	
-	
-	
-	
 	
 	public Sector() {
 	}
