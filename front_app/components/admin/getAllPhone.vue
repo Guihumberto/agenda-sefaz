@@ -130,7 +130,7 @@
               </v-list-item>
               <v-divider
                 v-if="index < list.length - 1"
-                :key="index"
+                :key="index + item.id"
               ></v-divider>
             </template>
           </v-slide-x-transition>

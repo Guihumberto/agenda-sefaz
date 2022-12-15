@@ -59,7 +59,7 @@
                 </v-form>
               </v-list-item>
               <!-- delete mode -->
-              <v-list-item :key="index + item.phone" v-else-if="deleteMode == item.id">
+              <v-list-item :key="index + item.id" v-else-if="deleteMode == item.id">
                 <v-list-item-icon>
                   <v-icon color="error">mdi-alert-circle-outline</v-icon>
                 </v-list-item-icon>
@@ -128,7 +128,7 @@
               </v-list-item>
               <v-divider
                 v-if="index < list.length - 1"
-                :key="index"
+                :key="index + item.id"
               ></v-divider>
             </template>
           </v-slide-x-transition>

@@ -4,7 +4,8 @@ export const state = () => ({
     listAgenda: [],
     listPhone: [],
     listLocalization: [],
-    listSector:[]
+    listSector:[],
+    listEmployee:[]
 })
 
 export const getters = {
@@ -19,6 +20,9 @@ export const getters = {
     },
     readSector(state){
         return state.listSector
+    },
+    readEmployee(state){
+        return state.listEmployee
     }
 }
 
@@ -64,7 +68,20 @@ export const mutations = {
         state.listSector = x
     },
     removeSector(state, payload){
-        state.listSector = state.listPhone.filter(x => x.id != payload)
+        state.listSector = state.listSector.filter(x => x.id != payload)
+    },
+    setEmployee(state, payload){
+        state.listEmployee = payload
+    },
+    saveEmployee(state, payload){
+        state.listEmployee.push(payload)
+    },   
+    editEmployee(state, payload){
+        const x = state.listPhone.map(item => item.id == payload.id ? payload : item)
+        state.listEmployee = x
+    },
+    removeEmployee(state, payload){
+        state.listEmployee = state.listEmployee.filter(x => x.id != payload)
     },
 }
 
@@ -170,7 +187,10 @@ export const actions = {
     },
     async insertSector({commit}, sector){
         const data = {
-            name: sector
+            name: sector.name,
+            localization: {
+                id: sector.local
+              }
         }
         try {
             await this.$axios.$post('sector', data).then((response) => {
@@ -189,13 +209,52 @@ export const actions = {
             console.log(error)
         }
     },
-    async removeSector({commit}, phone){
+    async removeSector({commit}, sector){
         const data = {
-            id: phone
+            id: sector
         }
         try {
-            await this.$axios.$delete(`sector/${phone}`, data).then((response) => {
-                commit('removeSector', phone)
+            await this.$axios.$delete(`sector/${sector}`, data).then((response) => {
+                commit('removeSector', sector)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    async cargaEmployee({commit}){
+        try {
+            await this.$axios.$get('employee').then((response) => {
+                commit('setEmployee', response)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    async insertEmployee({commit}, employee){
+        try {
+            await this.$axios.$post('employee', employee).then((response) => {
+                commit('saveEmployee', response)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    async editSetEmployee({commit}, phone){
+        try {
+            await this.$axios.$put(`employee/${phone.id}`, phone).then((response) => {
+                commit('editEmployee', phone)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    async removeEmployee({commit}, sector){
+        const data = {
+            id: sector
+        }
+        try {
+            await this.$axios.$delete(`employee/${sector}`, data).then((response) => {
+                commit('removeEmployee', sector)
             })
         } catch (error) {
             console.log(error)
