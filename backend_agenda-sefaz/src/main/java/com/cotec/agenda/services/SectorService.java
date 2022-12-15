@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cotec.agenda.dto.SectorDTO;
+import com.cotec.agenda.entities.Localization;
 import com.cotec.agenda.entities.Sector;
 import com.cotec.agenda.repositories.SectorRepository;
 import com.cotec.agenda.services.exceptions.DataBaseException;
@@ -33,6 +34,12 @@ public class SectorService {
 	public SectorDTO insert(SectorDTO dto) {
 		Sector entity = new Sector();
 		entity.setName(dto.getName());
+		
+		Localization local = new Localization();
+		local.setId(dto.getLocalization().getId());
+		
+		entity.setIdlocal(local);
+		
 		entity = repository.save(entity);
 		
 		return new SectorDTO(entity);
@@ -43,7 +50,14 @@ public class SectorService {
 		try {
 			Sector entity = repository.getReferenceById(id);
 			entity.setName(dto.getName());
+			
+			Localization local = new Localization();
+			local.setId(dto.getLocalization().getId());
+			
+			entity.setIdlocal(local);
+			
 			entity = repository.save(entity);
+			
 			return new SectorDTO(entity);			
 		}
 		catch(EntityNotFoundException e) {

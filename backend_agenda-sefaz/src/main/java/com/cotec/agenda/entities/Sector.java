@@ -23,7 +23,7 @@ public class Sector implements Serializable {
 	private Long id;
 	private String name;
 	
-	@OneToMany(mappedBy = "idsector")
+	@OneToMany(mappedBy = "sector")
 	private List<Employee> employee;
 	
 	@ManyToOne
