@@ -133,7 +133,7 @@
     methods:{
         ...mapActions(['cargaEmployee', 'editSetEmployee', 'removeEmployee']),
         order(a, b){
-          return b.id -  a.id
+          return b.id - a.id
         },
         edit(item){
           this.deleteMode = null

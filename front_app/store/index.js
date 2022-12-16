@@ -5,10 +5,14 @@ export const state = () => ({
     listPhone: [],
     listLocalization: [],
     listSector:[],
-    listEmployee:[]
+    listEmployee:[],
+    sizeAgenda: 100
 })
 
 export const getters = {
+    readSizeAgenda(state){
+        return state.sizeAgenda
+    },
     readAgenda(state){
         return state.listAgenda
     },
@@ -27,6 +31,9 @@ export const getters = {
 }
 
 export const mutations = {
+    setSizeAgenda(state, payload){
+        state.sizeAgenda = payload
+    },
     setQuestions(state, payload){
         state.listAgenda = payload
     },
@@ -39,7 +46,6 @@ export const mutations = {
     editPhone(state, payload){
         const x = state.listPhone.map(item => item.id == payload.id ? payload : item)
         state.listPhone = x
-
     },
     removePhone(state, payload){
         state.listPhone = state.listPhone.filter(x => x.id != payload)
@@ -75,7 +81,7 @@ export const mutations = {
     },
     saveEmployee(state, payload){
         state.listEmployee.push(payload)
-    },   
+    },  
     editEmployee(state, payload){
         const x = state.listPhone.map(item => item.id == payload.id ? payload : item)
         state.listEmployee = x
@@ -86,6 +92,9 @@ export const mutations = {
 }
 
 export const actions = {
+    alterSizeAgenda({commit}, num){
+        commit('setSizeAgenda', num)
+    },
     async getAgenda({commit}){
         try {
             await this.$axios.$get('employee').then((response) => {
@@ -231,9 +240,25 @@ export const actions = {
         }
     },
     async insertEmployee({commit}, employee){
+        const data = {
+            name: employee.name,
+            email: employee.email,
+            cellphone: employee.cellphone,
+            wtzp: employee.wtzp,
+            phoneTable: employee.phoneTable,
+            phone: {
+                id: employee.phoneId,
+            },
+            sector: {
+                id: employee.sectorId,
+                localization:{
+                    id: 1
+                }
+            }
+        }
         try {
             await this.$axios.$post('employee', employee).then((response) => {
-                commit('saveEmployee', response)
+                commit('saveEmployee', data)
             })
         } catch (error) {
             console.log(error)

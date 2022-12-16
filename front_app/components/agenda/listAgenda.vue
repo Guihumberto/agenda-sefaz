@@ -1,7 +1,7 @@
 <template>
   <v-card
     class="mt-5 mx-auto"
-    :min-width="`${sizeAgenda}%`"
+    :min-width="`${$store.getters.readSizeAgenda}%`"
     outlined
   >
     <v-toolbar
@@ -14,7 +14,7 @@
             class="mt-5"
             dense append-icon="mdi-magnify"
             rounded outlined filled
-            autofocus="true"
+            :autofocus="true"
             v-if="showSearchField"
             v-model="search"
             clearable
@@ -91,12 +91,13 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
 data: () => ({
   showSearchField: false,
   search: null,
   employee: null,
-  sizeAgenda: 100,
   pagination:{
       page: 1,
       perPage: 10,
@@ -139,9 +140,10 @@ computed:{
   }
 },
 methods:{
+  ...mapActions(['alterSizeAgenda']),
   contatoRight(item){
     this.employee = item
-    this.sizeAgenda = 65,
+    this.alterSizeAgenda(65)
     this.$emit('showContactBtn', this.employee)
   },
   order(a, b){

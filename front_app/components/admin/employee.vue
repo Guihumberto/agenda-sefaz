@@ -123,6 +123,7 @@
                     if(!this.Islist(this.employee)){
                         this.insertEmployee(this.employee);
                         this.$store.dispatch("snackbars/setSnackbars", {text:'Registro salvo', color:'success'})
+                        this.clearEmployee()
                     } else {
                         this.$store.dispatch("snackbars/setSnackbars", {text:'Registro já cadastrado', color:'error'})
                     }
